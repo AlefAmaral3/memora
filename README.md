@@ -47,7 +47,7 @@
 
 ```bash
 # Clone o repositório
-git clone https://github.com/SEU-USUARIO/memora.git
+git clone https://github.com/AlefAmaral3/memora.git
 cd memora
 
 # Instale as dependências
@@ -57,35 +57,55 @@ npm install
 cd functions
 npm install
 cd ..
-
-# Configure o Firebase
-# Crie um projeto no Firebase Console
-# Copie as credenciais para src/firebase/firebaseConfig.js
-
-# Inicie a aplicação em desenvolvimento
-npm start
 ```
 
 ## 🔧 Configuração
 
-### 1. Firebase
+### 1. Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto (copie do `.env.example`):
+
+```bash
+cp .env.example .env
+```
+
+Edite o arquivo `.env` e adicione suas credenciais do Firebase:
+
+```env
+REACT_APP_FIREBASE_API_KEY=sua_api_key_aqui
+REACT_APP_FIREBASE_AUTH_DOMAIN=seu_auth_domain_aqui
+REACT_APP_FIREBASE_PROJECT_ID=seu_project_id_aqui
+REACT_APP_FIREBASE_STORAGE_BUCKET=seu_storage_bucket_aqui
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=seu_messaging_sender_id_aqui
+REACT_APP_FIREBASE_APP_ID=seu_app_id_aqui
+```
+
+### 2. Firebase
 
 1. Crie um projeto no [Firebase Console](https://console.firebase.google.com/)
 2. Ative Authentication (Google)
 3. Ative Firestore Database
 4. Ative Storage
-5. Copie as credenciais para `src/firebase/firebaseConfig.js`
+5. Copie as credenciais do projeto e cole no arquivo `.env`
 
-### 2. SendGrid
+### 3. SendGrid (para envio de emails)
 
-```powershell
+```bash
 firebase functions:secrets:set SENDGRID_API_KEY
 ```
 
-### 3. FCM (Push Notifications)
+### 4. FCM (Push Notifications)
 
-1. Obtenha a VAPID key no Firebase Console
-2. Cole em `src/services/saveFcmToken.js`
+1. Obtenha a VAPID key no Firebase Console (Project Settings > Cloud Messaging)
+2. Atualize em `src/services/saveFcmToken.js`
+
+### 5. Iniciar a Aplicação
+
+```bash
+npm start
+```
+
+A aplicação estará disponível em [http://localhost:3000](http://localhost:3000)
 
 ## 📤 Deploy
 
@@ -150,7 +170,7 @@ Desenvolvido para o projeto Memora - Gestão de Eventos
 
 ## 📞 Suporte
 
-Para questões e suporte, abra uma [issue](https://github.com/SEU-USUARIO/memora/issues)
+Para questões e suporte, abra uma [issue](https://github.com/AlefAmaral3/memora/issues)
 
 ### Analyzing the Bundle Size
 

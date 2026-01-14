@@ -5,15 +5,11 @@ import { app } from "./firebaseConfig";
 // Usa a MESMA app já inicializada em firebaseConfig.js
 export const messaging = getMessaging(app);
 
-// Tua VAPID KEY real (sem espaços / quebras de linha)
-const VAPID_KEY =
-  "BBbu4Ox2w1zYzXN-Hnz2we6wZSlVfR8RrmHOpFZaqF1wpugmNi5ZJw1goEGcywYkYDwETLXIRFB8W5l5l2vkFI";
-
 // Gera o token FCM do navegador
 export async function requestUserForPush() {
   try {
     const token = await getToken(messaging, {
-      vapidKey: VAPID_KEY,
+      vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
     });
     console.log("FCM token:", token);
     return token;
