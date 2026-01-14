@@ -75,8 +75,7 @@ export default function Topbar({ active }) {
           aria-label="Ir para Eventos"
           style={{ border: "none", background: "transparent", cursor: "pointer", padding: 0 }}
         >
-          <span className="brand-dot" aria-hidden="true" />
-          Memora
+          MEMORA
         </button>
 
         <nav className="nav" aria-label="Navegação principal">
