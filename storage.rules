@@ -1,0 +1,53 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper: verifica se o utilizador está autenticado
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // ============================================
+    // FOTOS DE EVENTOS (events/{eventId}/photos/{photoId})
+    // ============================================
+    match /events/{eventId}/photos/{photoId} {
+      // Leitura:
+      // - Qualquer pessoa autenticada pode ler
+      // - A validação de acesso ao evento (público vs privado) é feita no Firestore
+      allow read: if isSignedIn();
+      
+      // Upload (create): qualquer pessoa autenticada
+      // Validação de acesso (proprietário ou participante aceito) é feita no frontend
+      allow create: if isSignedIn()
+                    && request.resource.size < 5 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+      
+      // Atualização e eliminação: apenas o utilizador que fez upload
+      allow update, delete: if isSignedIn() 
+                            && request.auth.uid == resource.metadata.uploadedBy;
+    }
+    
+    // ============================================
+    // FOTOS DE PERFIL (users/{userId}/profile/{photoId})
+    // ============================================
+    match /users/{userId}/profile/{photoId} {
+      // Leitura: qualquer pessoa autenticada
+      allow read: if isSignedIn();
+      
+      // Upload: apenas o próprio utilizador
+      allow create: if isSignedIn() 
+                    && request.auth.uid == userId
+                    && request.resource.size < 2 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+      
+      // Atualização e eliminação: apenas o próprio utilizador
+      allow update, delete: if isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Bloquear tudo o resto por padrão
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

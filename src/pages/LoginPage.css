@@ -1,0 +1,240 @@
+:root {
+  --bg: #f5f6f1;
+  --surface: #ffffff;
+  --surface-2: rgba(255, 255, 255, 0.7);
+  --text: #1f2328;
+  --muted: #667085;
+  --border: rgba(17, 24, 39, 0.10);
+
+  --brand: #ff4141;
+  --brand-2: #ff6868;
+
+  --radius-lg: 18px;
+  --shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 18px 40px rgba(0, 0, 0, 0.08);
+
+  --container: 1200px;
+  --transition: 160ms ease;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.login-page a:focus-visible,
+.login-page button:focus-visible,
+.login-page select:focus-visible {
+  outline: 3px solid rgba(255, 65, 65, 0.35);
+  outline-offset: 2px;
+}
+
+/* HEADER simples com Memora à direita */
+.login-header {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.login-header-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: flex-end; /* logo na direita */
+  align-items: center;
+}
+
+.login-logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--brand);
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+.login-logo-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* MAIN centrado */
+.login-main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 28px 16px;
+}
+
+.login-card {
+  width: min(520px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 22px 18px 18px;
+  text-align: center;
+}
+
+.login-card-head {
+  margin-bottom: 14px;
+}
+
+.login-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+
+.login-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* divider */
+.login-divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 14px;
+}
+
+.login-divider span {
+  height: 1px;
+  background: rgba(17, 24, 39, 0.12);
+}
+
+.login-divider-text {
+  color: rgba(31, 35, 40, 0.60);
+  font-size: 12px;
+}
+
+/* icons */
+.login-icons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Botões sociais (com imagem) */
+.login-page .social-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  background: #fff;
+  display: grid;
+  place-items: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.login-page .social-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.login-page .social-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
+
+/* FOOTER */
+.login-footer {
+  border-top: 1px solid rgba(17, 24, 39, 0.10);
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  padding: 18px 32px 22px;
+  font-size: 12px;
+  color: rgba(31, 35, 40, 0.62);
+}
+
+.login-footer .footer-inner {
+  max-width: var(--container);
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.login-footer .footer-logo {
+  font-weight: 800;
+  color: var(--brand);
+  margin-bottom: 10px;
+}
+
+.login-footer .footer-nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.login-footer .footer-nav a {
+  text-decoration: none;
+  color: rgba(31, 35, 40, 0.65);
+  padding: 6px 8px;
+  border-radius: 10px;
+}
+
+.login-footer .footer-right {
+  display: flex;
+  align-items: center;
+}
+
+.login-footer .footer-lang {
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  background-color: #fff;
+  font-size: 12px;
+}
+
+.login-footer .footer-bottom {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.login-footer .footer-bottom-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.login-footer .footer-bottom-links a {
+  text-decoration: none;
+  color: rgba(31, 35, 40, 0.65);
+}
+
+.login-footer .footer-bottom-links a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+  .login-header-inner {
+    padding-inline: 16px;
+  }
+
+  .login-footer {
+    padding-inline: 16px;
+  }
+}

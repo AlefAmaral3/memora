@@ -1,0 +1,92 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper: verifica se o utilizador está autenticado
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // Helper: verifica se é o proprietário do recurso
+    function isOwner(ownerId) {
+      return isSignedIn() && request.auth.uid == ownerId;
+    }
+    
+    // ============================================
+    // EVENTOS (events)
+    // ============================================
+    match /events/{eventId} {
+      // Leitura:
+      // - Públicos: qualquer pessoa pode ler
+      // - Privados: só o proprietário ou participantes
+      allow read: if resource.data.visibilidade == true 
+                  || isOwner(resource.data.ownerId)
+                  || exists(/databases/$(database)/documents/events/$(eventId)/participants/$(request.auth.uid));
+      
+      // Criação: apenas utilizadores autenticados
+      // Deve incluir ownerId igual ao uid do utilizador
+      allow create: if isSignedIn() 
+                    && request.resource.data.ownerId == request.auth.uid
+                    && request.resource.data.titulo is string
+                    && request.resource.data.data is timestamp;
+      
+      // Atualização e eliminação: apenas o proprietário
+      allow update, delete: if isOwner(resource.data.ownerId);
+      
+      // ============================================
+      // PARTICIPANTES (subcoleção)
+      // ============================================
+      match /participants/{participantId} {
+        // Leitura: proprietário do evento ou o próprio participante
+        allow read: if isOwner(get(/databases/$(database)/documents/events/$(eventId)).data.ownerId)
+                    || request.auth.uid == participantId;
+        
+        // Criação/atualização: proprietário do evento
+        allow create, update: if isOwner(get(/databases/$(database)/documents/events/$(eventId)).data.ownerId);
+        
+        // Eliminação: proprietário do evento ou o próprio participante
+        allow delete: if isOwner(get(/databases/$(database)/documents/events/$(eventId)).data.ownerId)
+                      || request.auth.uid == participantId;
+      }
+    }
+    
+    // ============================================
+    // UTILIZADORES (users)
+    // ============================================
+    match /users/{userId} {
+      // Qualquer pessoa autenticada pode ler perfis (para pesquisar utilizadores)
+      allow read: if isSignedIn();
+      
+      // Criação e atualização: apenas o próprio utilizador
+      allow create, update: if isSignedIn() && request.auth.uid == userId;
+      
+      // Eliminação: apenas o próprio utilizador
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // ============================================
+    // CONVITES (invites) - subcoleção de utilizadores
+    // ============================================
+    // CONVITES (invites)
+    // ============================================
+    match /invites/{inviteId} {
+      // Leitura: qualquer pessoa (para aceitar/rejeitar)
+      allow read: if true;
+      
+      // Escrita: apenas Cloud Functions
+      allow write: if false; // Cloud Functions usa regras especiais
+    }
+    
+    // ============================================
+    match /users/{userId}/invites/{inviteId} {
+      // Leitura e escrita: apenas o próprio utilizador ou proprietário do evento
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Bloquear tudo o resto por padrão
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
