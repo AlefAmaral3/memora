@@ -1,172 +1,71 @@
 # 📅 Memora - Plataforma de Gestão de Eventos
 
-**Memora** é uma aplicação web moderna para gestão de eventos, desenvolvida com React e Firebase.
+**Memora** é uma aplicação web moderna para gestão de eventos que permite criar, organizar e acompanhar eventos de forma simples e eficiente.
+
+## 🎯 Sobre o Projeto
+
+Memora é uma solução completa para gestão de eventos pessoais e profissionais, oferecendo uma interface intuitiva e recursos avançados de organização, notificação e colaboração.
 
 ## ✨ Funcionalidades
 
 ### 📝 Gestão de Eventos
-- ✅ Criar, editar e eliminar eventos
-- ✅ Campos: título, data, hora, local, descrição, categoria
-- ✅ Visibilidade pública/privada
-- ✅ Upload de fotografias por evento
-- ✅ Sistema de participantes e convites
+- **Criar e editar eventos** com título, data, hora, local, descrição e categoria
+- **Controlar visibilidade** dos eventos (público ou privado)
+- **Upload de fotografias** para cada evento
+- **Gerenciar participantes** e enviar convites
+- **Eliminar eventos** quando necessário
 
-### 📆 Calendário
-- ✅ Vista mensal com eventos
-- ✅ Vista semanal
-- ✅ Vista diária
-- ✅ Navegação intuitiva entre períodos
+### 📆 Visualização em Calendário
+- **Vista mensal** - visualize todos os eventos do mês
+- **Vista semanal** - planeje sua semana com facilidade
+- **Vista diária** - foco nos compromissos do dia
+- **Navegação intuitiva** entre diferentes períodos
 
-### 🔍 Pesquisa e Filtros
-- ✅ Pesquisa por título, local e categoria
-- ✅ Paginação (10 eventos por página)
-- ✅ Autocomplete de localização
+### 🔍 Busca e Organização
+- **Pesquisa avançada** por título, local e categoria
+- **Filtros personalizados** para encontrar eventos rapidamente
+- **Paginação** para melhor performance (10 eventos por página)
+- **Autocomplete de localização** usando Google Places
 
-### 🔔 Notificações
-- ✅ Lembretes configuráveis (10 min, 1h, 1 dia antes)
-- ✅ Notificações por email (SendGrid)
-- ✅ Notificações push (FCM)
-- ✅ Envio automático via Cloud Functions
+### 🔔 Sistema de Notificações
+- **Lembretes configuráveis** - escolha quando ser notificado (10 min, 1h, 1 dia antes)
+- **Notificações por email** - receba alertas na sua caixa de entrada
+- **Notificações push** - alertas instantâneos no navegador
+- **Envio automático** através de Cloud Functions
 
-### 🔐 Segurança
-- ✅ Autenticação Google (Firebase Auth)
-- ✅ Regras de segurança Firestore
-- ✅ Regras de segurança Storage
-- ✅ Controlo de permissões por proprietário
+### 👥 Colaboração
+- **Convidar participantes** por email
+- **Aceitar ou recusar convites** de forma rápida
+- **Visualizar lista de participantes** confirmados
+- **Gerenciar suas participações** em eventos de outros usuários
 
-## 🚀 Tecnologias
+### 🔐 Segurança e Privacidade
+- **Autenticação Google** - login rápido e seguro
+- **Controle de permissões** - apenas o proprietário pode editar eventos
+- **Eventos privados** - visibilidade controlada
+- **Regras de segurança** no banco de dados e storage
+
+## 🚀 Tecnologias Utilizadas
 
 - **Frontend**: React 18, React Router
 - **Backend**: Firebase (Firestore, Storage, Cloud Functions)
 - **Autenticação**: Firebase Authentication (Google)
 - **Email**: SendGrid
 - **Notificações**: Firebase Cloud Messaging (FCM)
+- **Mapas**: Google Maps API / Google Places API
 - **Hosting**: Firebase Hosting
-
-## 📦 Instalação
-
-```bash
-# Clone o repositório
-git clone https://github.com/AlefAmaral3/memora.git
-cd memora
-
-# Instale as dependências
-npm install
-
-# Instale dependências das Cloud Functions
-cd functions
-npm install
-cd ..
-```
-
-## 🔧 Configuração
-
-### 1. Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto (copie do `.env.example`):
-
-```bash
-cp .env.example .env
-```
-
-Edite o arquivo `.env` e adicione suas credenciais do Firebase:
-
-```env
-REACT_APP_FIREBASE_API_KEY=sua_api_key_aqui
-REACT_APP_FIREBASE_AUTH_DOMAIN=seu_auth_domain_aqui
-REACT_APP_FIREBASE_PROJECT_ID=seu_project_id_aqui
-REACT_APP_FIREBASE_STORAGE_BUCKET=seu_storage_bucket_aqui
-REACT_APP_FIREBASE_MESSAGING_SENDER_ID=seu_messaging_sender_id_aqui
-REACT_APP_FIREBASE_APP_ID=seu_app_id_aqui
-```
-
-### 2. Firebase
-
-1. Crie um projeto no [Firebase Console](https://console.firebase.google.com/)
-2. Ative Authentication (Google)
-3. Ative Firestore Database
-4. Ative Storage
-5. Copie as credenciais do projeto e cole no arquivo `.env`
-
-### 3. SendGrid (para envio de emails)
-
-```bash
-firebase functions:secrets:set SENDGRID_API_KEY
-```
-
-### 4. FCM (Push Notifications)
-
-1. Obtenha a VAPID key no Firebase Console (Project Settings > Cloud Messaging)
-2. Atualize em `src/services/saveFcmToken.js`
-
-### 5. Iniciar a Aplicação
-
-```bash
-npm start
-```
-
-A aplicação estará disponível em [http://localhost:3000](http://localhost:3000)
-
-## 📤 Deploy
-
-Veja instruções detalhadas em [DEPLOY.md](DEPLOY.md)
-
-```powershell
-# Deploy completo
-firebase deploy
-
-# Ou por partes
-firebase deploy --only firestore:rules
-firebase deploy --only storage:rules
-firebase deploy --only functions
-npm run build && firebase deploy --only hosting
-```
-
-## 📁 Estrutura do Projeto
-
-```
-memora/
-├── public/               # Ficheiros públicos
-├── src/
-│   ├── components/       # Componentes React
-│   ├── pages/           # Páginas da aplicação
-│   ├── services/        # Lógica de negócio
-│   ├── firebase/        # Configuração Firebase
-│   └── styles/          # Estilos CSS
-├── functions/           # Cloud Functions
-├── firestore.rules      # Regras de segurança Firestore
-├── storage.rules        # Regras de segurança Storage
-└── firebase.json        # Configuração Firebase
-```
-
-## 🎯 Scripts Disponíveis
-
-```bash
-npm start          # Modo desenvolvimento (http://localhost:3000)
-npm run build      # Build para produção
-npm test           # Executar testes
-firebase deploy    # Deploy para Firebase
-```
 
 ## 📸 Screenshots
 
-(Adicione screenshots da aplicação aqui)
+Em breve...
 
-## 🤝 Contribuir
+## 🤝 Como Contribuir
 
-1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/NovaFuncionalidade`)
-3. Commit as alterações (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/NovaFuncionalidade`)
-5. Abra um Pull Request
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
 
 ## 📄 Licença
 
 Este projeto está sob a licença MIT.
-
-## 👥 Autores
-
-Desenvolvido para o projeto Memora - Gestão de Eventos
 
 ## 📞 Suporte
 
